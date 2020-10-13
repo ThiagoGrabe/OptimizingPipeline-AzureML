@@ -12,13 +12,25 @@ This model is then compared to an Azure AutoML run. Using the [Bank Marketing Da
 
 At the end of this project, we want to create a solid understanding about the Azure ML Studio and some important standard practices of MLops inside Azure platform.
 
+The chosen architecture to perform the project is the following:
+
+![architecture](./img/training-python-models.png)
+
+In this architecture the data is kept inside Azure Storage Blobs and the Azure Machine Learning Service access the data and the Azure Machine Learning Compute with scripts. The following steps describe the scenario:
+
+1. The script for training is submitted to Azure ML;
+2. The script runs in Docker containers that are created on each node by pulling a custom image that is stored on Azure Container Registry;
+3. The scripts then runs the experiment training the model with the data stored in Azure Storage Blobs;
+4. The model is evaluated based on metrics (in this project accuracy);
+5. The best model is then observed and can be deployed.
+
 ## Summary
 
 The dataset is related with direct marketing campaigns of banking institution. Usually, marketing campaigns are based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be ('yes') or not ('no') subscribed.
 
 In this context, the best model was developed by the AutoML. The Voting Ensemble model had an accuracy of *0.91* and an weighted accuracy of *0.95*.
 
-The chosen classification algorithm was Logistic Regression as it is a sample problem and the output is binary. With that said, a binary classification is a good fit for Logistic Regression. The hyperparameters to explore was the **Inverse of regularization strength** represented by the letter *C* and the **Maximum number of iterations** represented by *max_iter*. These hyperparameters are important because the play an important role on the algorithm conversion and regularization.
+The chosen classification algorithm was Logistic Regression as it is a sample problem and the output is binary. With that said, a binary classification is a good fit for Logistic Regression. The hyperparameters to explore was the **Inverse of regularization strength** represented by the letter *C* and the **Maximum number of iterations** represented by *max_iter* in the parameter sample azure class called *RandomParameterSampling*. This class defines and random sample of the hyperparameters to search and these hyperparameters are important because the play an important role on the algorithm conversion and regularization. When searching for the best model with the best hyperparameters, *RandomParameterSampling* is crucial for better results in a machine learning project.
 
 Finally, the early stopping policy was also defined based on slack criteria, and a frequency and delay interval for evaluation. This part is important to prevent the model from overfitting and also extra computational resources that is no longer needed if an especific target is set. We use the bandit policy because this policy early terminates any runs where the primary metric is not within the specified slack factor/slack amount with respect to the best performing training run.
 

@@ -44,4 +44,3 @@ The architecture of both pipelines are different, but the ideas are close: Load 
 For improvements and future experiments it is important to explore other algorithms and validate more metrics. Accuracy in this case is very important, but also using a confusion matrix or a weighted accuracy can be important. Moreover, we can modify the experiments with other hyperparameters and increase the cross validation to enhance models performance and generalization.
 
 Explainability is crucial in some areas. With that said, explore more this azure feature is important and interesting.
-**What are some areas of improvement for future experiments? Why might these improvements help the model?**
